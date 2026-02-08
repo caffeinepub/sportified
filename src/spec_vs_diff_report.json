@@ -1,0 +1,56 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-08T10:57:16.315Z",
+  "summary": "Most onboarding/profile-field plumbing is present (new /onboarding page, route guard redirect when authenticated without profile, backend profile type/API extended, and profile edit UI updated). However, the sign-up intent routing appears to send users to onboarding even if they already have a profile, and the backend constraint about keeping all logic in backend/main.mo is violated by adding backend/migration.mo.",
+  "missing_requirements": [
+    {
+      "id": "REQ-13",
+      "requirement": "If an authenticated user already has a profile, they are not shown onboarding via the sign-up flow.",
+      "reason": "The sign-up intent path routes to /onboarding regardless of whether a profile exists.",
+      "evidence": [
+        "frontend/src/pages/SignInPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-14",
+      "requirement": "Backend must remain a single Motoko actor with all logic in backend/main.mo (no additional backend services/files).",
+      "reason": "A new backend module file was added and imported from main.mo, so backend logic is no longer confined to backend/main.mo.",
+      "evidence": [
+        "backend/migration.mo",
+        "backend/main.mo"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Added a backend migration module and wired stable-state migration via `(with migration = Migration.run)`.",
+      "reason": "BuildRequest did not ask for adding a migration system/file; it also conflicts with the stated constraint to keep all backend logic in backend/main.mo.",
+      "evidence": [
+        "backend/migration.mo",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "description": "Added/changed AppShell footer branding/credit (© 2026, 'Built with ❤️ using caffeine.ai' link).",
+      "reason": "Footer branding changes are not requested by the BuildRequest onboarding/profile requirements.",
+      "evidence": [
+        "frontend/src/components/AppShell.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.74,
+  "changed_files": [
+    "backend/main.mo",
+    "backend/migration.mo",
+    "frontend-file-summaries.txt",
+    "frontend/src/App.tsx",
+    "frontend/src/components/AppShell.tsx",
+    "frontend/src/components/ProfileSetupDialog.tsx",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/pages/OnboardingPage.tsx",
+    "frontend/src/pages/ProfilePage.tsx",
+    "frontend/src/pages/SignInPage.tsx",
+    "project_state.json"
+  ]
+}

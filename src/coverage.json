@@ -1,0 +1,113 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-08T10:57:16.318Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 6,
+    "implemented": 5,
+    "items": [
+      {
+        "id": "REQ-11",
+        "summary": "Update the Sign In screen to clearly distinguish between returning users and new users by adding a separate \"New user? Sign up\" option alongside the existing \"Login with Internet Identity\" flow.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/SignInPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/SignInPage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-12",
+        "summary": "Implement a first-time onboarding screen (separate from the existing profile setup dialog) that is used for new users after they authenticate with Internet Identity. The onboarding form must collect: name, age, fitness goals, and preferred sport.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/OnboardingPage.tsx",
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/OnboardingPage.tsx",
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-13",
+        "summary": "Wire the \"New user? Sign up\" flow so that when a user chooses sign-up, they authenticate with Internet Identity first and are then taken directly to the onboarding screen to complete profile setup.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/SignInPage.tsx",
+          "frontend/src/pages/OnboardingPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/SignInPage.tsx",
+          "frontend/src/pages/OnboardingPage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-14",
+        "summary": "Extend the backend user profile model and related APIs to support storing age and fitness goals, and allow onboarding to create a profile with name, age, fitness goals, and preferred sport.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-15",
+        "summary": "Update the frontend’s profile queries/mutations and profile editing UI to support the new profile fields (age and fitness goals) so users can view and edit them after onboarding.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/pages/ProfilePage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/pages/ProfilePage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-16",
+        "summary": "Replace or rework the current authenticated-but-no-profile behavior (currently a modal ProfileSetupDialog) so it does not conflict with the new separate onboarding sign-up flow, while still preventing authenticated users without a profile from using the app without completing profile setup.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/App.tsx",
+          "frontend/src/components/AppShell.tsx",
+          "frontend/src/components/ProfileSetupDialog.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/App.tsx",
+          "frontend/src/components/AppShell.tsx",
+          "frontend/src/components/ProfileSetupDialog.tsx"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "backend/main.mo",
+    "backend/migration.mo",
+    "build-request.json",
+    "build-template/README.md",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/src/App.tsx",
+    "frontend/src/backend.d.ts",
+    "frontend/src/backend.ts",
+    "frontend/src/components/AppShell.tsx",
+    "frontend/src/components/ProfileSetupDialog.tsx",
+    "frontend/src/declarations/backend.did.d.ts",
+    "frontend/src/declarations/backend.did.js",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/pages/OnboardingPage.tsx",
+    "frontend/src/pages/ProfilePage.tsx",
+    "frontend/src/pages/SignInPage.tsx",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}

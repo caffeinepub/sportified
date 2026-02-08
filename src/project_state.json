@@ -1,0 +1,195 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 5,
+  "summary": "AI-powered sports assistant app (Sportified) with sport selection, daily fitness goals (steps/squats/pushups) with mixed auto/manual logging, user accounts for saved profiles, and social features (friends + separate following/followers + private messaging).",
+  "architectural_notes": [
+    "Platform limitation: cannot access phone motion sensors; true automatic step/squat/pushup tracking may require manual entry or data import instead.",
+    "Platform limitation: no WebSockets/real-time comms; chat must be implemented as non-real-time messaging (poll/fetch on open).",
+    "Sign-up is implemented as a first-time onboarding flow: user taps \"New user? Sign-up\" on sign-in screen, authenticates via Internet Identity, then completes onboarding fields (name, age, fitness goals, preferred sport) to create their profile."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-set-the-application-name-to-sportified-across-user-facing-ui-app-title-header-and-any-visible-branding-text",
+      "title": "Set the application name to \"Sportified\" across user-facing UI (app title/header) and any visible branding text.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-user-accounts-with-persistent-profiles-so-a-user-s-data-is-saved-and-not-lost-across-sessions-using-internet-identity-for-authentication",
+      "title": "Implement user accounts with persistent profiles so a user’s data is saved and not lost across sessions, using Internet Identity for authentication.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-provide-sport-selection-in-the-ui-e-g-badminton-basketball-football-and-persist-the-user-s-selected-sport-in-their-profile",
+      "title": "Provide sport selection in the UI (e.g., badminton, basketball, football) and persist the user’s selected sport in their profile.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-daily-fitness-goals-and-activity-tracking-for-steps-squats-and-pushups-with-simulated-automatic-step-logging-and-manual-logging-for-squats-and-pushups-persist-logs-per-user-and-day",
+      "title": "Implement daily fitness goals and activity tracking for steps, squats, and pushups, with simulated automatic step logging and manual logging for squats and pushups; persist logs per user and day.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-friend-system-that-is-separate-from-following-users-can-search-discover-other-users-send-friend-requests-and-accept-decline-requests-maintain-an-accurate-friends-list-per-user",
+      "title": "Implement a friend system that is separate from following: users can search/discover other users, send friend requests, and accept/decline requests; maintain an accurate friends list per user.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-following-followers-system-that-is-separate-from-friends-users-can-follow-unfollow-other-users-and-view-follower-and-following-lists",
+      "title": "Implement a following/followers system that is separate from friends: users can follow/unfollow other users and view follower and following lists.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-private-messaging-non-real-time-users-can-send-messages-to-other-users-and-fetch-conversation-history-when-opening-a-chat-screen-store-messages-per-conversation-in-the-backend",
+      "title": "Implement private messaging (non-real-time): users can send messages to other users and fetch conversation history when opening a chat screen; store messages per conversation in the backend.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-core-frontend-screens-and-navigation-for-sign-in-profile-sport-selection-daily-activity-dashboard-logging-friends-requests-list-following-followers-and-messages-ensure-consistent-loading-error-empty-states-using-react-query",
+      "title": "Create core frontend screens and navigation for: sign-in, profile, sport selection, daily activity dashboard/logging, friends (requests + list), following/followers, and messages; ensure consistent loading/error/empty states using React Query.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-define-and-apply-a-coherent-visual-theme-for-sportified-colors-typography-spacing-and-component-styling-across-all-screens-avoid-a-blue-purple-dominant-palette",
+      "title": "Define and apply a coherent visual theme for Sportified (colors, typography, spacing, and component styling) across all screens; avoid a blue/purple-dominant palette.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-generated-static-image-assets-logo-and-background-under-frontend-public-assets-generated-and-render-them-in-the-ui-e-g-in-header-sign-in-page-without-routing-images-through-the-backend",
+      "title": "Add generated static image assets (logo and background) under frontend/public/assets/generated and render them in the UI (e.g., in header/sign-in page) without routing images through the backend.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-sign-in-screen-to-clearly-distinguish-between-returning-users-and-new-users-by-adding-a-separate-new-user-sign-up-option-alongside-the-existing-login-with-internet-identity-flow",
+      "title": "Update the Sign In screen to clearly distinguish between returning users and new users by adding a separate \"New user? Sign up\" option alongside the existing \"Login with Internet Identity\" flow.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-first-time-onboarding-screen-separate-from-the-existing-profile-setup-dialog-that-is-used-for-new-users-after-they-authenticate-with-internet-identity-the-onboarding-form-must-collect-name-age-fitness-goals-and-preferred-sport",
+      "title": "Implement a first-time onboarding screen (separate from the existing profile setup dialog) that is used for new users after they authenticate with Internet Identity. The onboarding form must collect: name, age, fitness goals, and preferred sport.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-wire-the-new-user-sign-up-flow-so-that-when-a-user-chooses-sign-up-they-authenticate-with-internet-identity-first-and-are-then-taken-directly-to-the-onboarding-screen-to-complete-profile-setup",
+      "title": "Wire the \"New user? Sign up\" flow so that when a user chooses sign-up, they authenticate with Internet Identity first and are then taken directly to the onboarding screen to complete profile setup.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-frontend-s-profile-queries-mutations-and-profile-editing-ui-to-support-the-new-profile-fields-age-and-fitness-goals-so-users-can-view-and-edit-them-after-onboarding",
+      "title": "Update the frontend’s profile queries/mutations and profile editing UI to support the new profile fields (age and fitness goals) so users can view and edit them after onboarding.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-or-rework-the-current-authenticated-but-no-profile-behavior-currently-a-modal-profilesetupdialog-so-it-does-not-conflict-with-the-new-separate-onboarding-sign-up-flow-while-still-preventing-authenticated-users-without-a-profile-from-using-the-app-without-completing-profile-setup",
+      "title": "Replace or rework the current authenticated-but-no-profile behavior (currently a modal ProfileSetupDialog) so it does not conflict with the new separate onboarding sign-up flow, while still preventing authenticated users without a profile from using the app without completing profile setup.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Sport selection (e.g., badminton, basketball, football)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Daily goals: steps, squats, pushups",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Activity tracking: automatic logging for steps; manual logging for squats and pushups",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "User accounts/profiles so user data is saved and not lost",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Friend system: friend requests and friends list",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Private messaging (non-real-time, messages fetched when opening conversation)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Following/followers system, separate from friends",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Add first-time user sign-up/onboarding flow: sign-in screen distinguishes new vs returning users; new users authenticate with Internet Identity then complete onboarding form (name, age, fitness goals, preferred sport) to create profile",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Extend the backend user profile model and related APIs to support storing age and fitness goals, and allow onboarding to create a profile with name, age, fitness goals, and preferred sport.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "status": "pending"
+    }
+  ],
+  "projectName": "Sportified",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

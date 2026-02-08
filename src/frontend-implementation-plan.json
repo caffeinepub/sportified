@@ -1,0 +1,120 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "First-time Internet Identity onboarding flow with extended profile fields",
+  "requirements": [
+    {
+      "id": "REQ-11",
+      "summary": "Update /sign-in to offer separate returning-user login and new-user sign-up actions.",
+      "acceptanceCriteria": [
+        "On /sign-in, users can choose between a returning-user login action and a distinct new-user sign-up action labeled in English (e.g., \"New user? Sign up\").",
+        "Clicking the returning-user action continues to authenticate via Internet Identity as it does today.",
+        "Clicking the sign-up option does not create a profile immediately; it initiates the sign-up flow described in REQ-12/REQ-13."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/SignInPage.tsx",
+          "operation": "modify",
+          "description": "Add a second action labeled \"New user? Sign up\" alongside the existing \"Login with Internet Identity\" action. Use the existing Internet Identity auth flow (selected component: authorization) for both actions, and persist a lightweight sign-up intent flag (e.g., sessionStorage) when the user chooses the sign-up path. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "summary": "Create a dedicated onboarding page to collect name, age, fitness goals, and preferred sport for first-time users.",
+      "acceptanceCriteria": [
+        "A dedicated onboarding route/screen exists (separate page, not a modal dialog) and is reachable from the sign-up entry point.",
+        "The onboarding form includes inputs for: name (text), age (number), fitness goals (text area or multi-line text), and preferred sport (existing sport selector).",
+        "Validation prevents submission when required fields are missing/invalid (e.g., empty name, missing sport, non-positive/invalid age).",
+        "On successful onboarding submission, the user’s profile is created and the user is navigated into the authenticated app experience (e.g., dashboard).",
+        "All user-facing text on the onboarding screen is in English."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/OnboardingPage.tsx",
+          "operation": "create",
+          "description": "Implement a standalone onboarding screen (page route) with inputs for name, age, fitness goals, and preferred sport (reuse existing sport options/labels from frontend/src/lib/sports.ts). Use existing shadcn-ui form primitives already in the project (e.g., Card, Input, Select, Button) to compose the UI (selected component: shadcn-ui). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Update/create the profile-creation React Query mutation to support onboarding submission with name, age, fitnessGoals, and sport using the existing backend interface typing (createProfile). Ensure the mutation invalidates the current-user profile query after success (selected component: authorization guidance for profile setup + query invalidation patterns). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register a dedicated onboarding route (e.g., /onboarding) in the TanStack Router route tree and ensure the page is reachable via navigation from the sign-up entry point."
+        }
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "summary": "Wire sign-up intent so new users authenticate with Internet Identity first, then go directly to onboarding (and not dashboard).",
+      "acceptanceCriteria": [
+        "From /sign-in, clicking the sign-up option triggers Internet Identity authentication.",
+        "After successful Internet Identity authentication via the sign-up path, the app routes the user to the onboarding screen (not the dashboard).",
+        "If the user cancels/does not complete Internet Identity authentication, they remain on /sign-in with no profile changes.",
+        "If an authenticated user already has a profile, they are not shown onboarding via this flow."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/SignInPage.tsx",
+          "operation": "modify",
+          "description": "Implement post-auth routing logic that checks (1) whether the user clicked the sign-up path (intent flag) and (2) whether a profile already exists (via the existing getCallerUserProfile query) to decide between navigating to /onboarding vs /. Ensure cancel/no-auth leaves the user on /sign-in with no changes (selected component: authorization for Internet Identity auth + first-time profile check patterns). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/OnboardingPage.tsx",
+          "operation": "modify",
+          "description": "On mount, guard the onboarding page so that authenticated users with an existing profile are redirected into the app (e.g., /), while unauthenticated users are redirected to /sign-in. Clear the sign-up intent flag after successful onboarding completion (selected component: authorization for profile existence checks). Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "summary": "Update frontend profile hooks and Profile page UI to view/edit age and fitness goals.",
+      "acceptanceCriteria": [
+        "Frontend types and React Query hooks for profile creation and saving are updated to match the backend API and include age + fitness goals.",
+        "The Profile page displays and allows editing of age and fitness goals in addition to existing profile fields.",
+        "Saving changes updates the stored profile and reflects after refresh/reload via the existing profile fetch flow."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Align profile-related hooks with the current backend interface typing: ensure createProfile takes (name, age, fitnessGoals, sport) and that saveCallerUserProfile updates include age and fitnessGoals. Keep query keys stable and invalidate/refetch currentUserProfile after mutations (selected component: authorization frontend guidance for profile setup + caching). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/ProfilePage.tsx",
+          "operation": "modify",
+          "description": "Extend the Profile page to display and allow editing of age (number input) and fitness goals (multi-line input). Validate inputs and ensure save writes updated fields via the existing save mutation; keep all user-facing strings in English (selected component: shadcn-ui for composing inputs and cards). Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-16",
+      "summary": "Replace modal-based no-profile behavior with a non-conflicting onboarding route guard that blocks core app access until profile completion.",
+      "acceptanceCriteria": [
+        "The app no longer forces the existing ProfileSetupDialog modal for the new-user sign-up onboarding flow.",
+        "Authenticated users who have no profile are guided to complete profile setup via the dedicated onboarding screen (or an equivalent non-conflicting mechanism) before accessing core authenticated pages.",
+        "No route loop occurs between sign-in, onboarding, and dashboard for either returning users (profile exists) or new users (profile missing until onboarding submit)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Remove the global ProfileSetupDialog modal behavior and replace it with route-level guarding: when authenticated and the current-user profile query resolves to null, redirect to /onboarding (except when already on /onboarding or /sign-in). Ensure navigation does not loop and that returning users with profiles proceed normally (selected component: authorization guidance for preventing profile-setup modal flash using isFetched/isLoading patterns). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/AppShell.tsx",
+          "operation": "modify",
+          "description": "Adjust shell/navigation visibility so core authenticated navigation (e.g., AppNav) is not shown until the user is authenticated AND has a completed profile, preventing access to core pages without profile completion (selected component: authorization for authenticated vs guest UX patterns). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/ProfileSetupDialog.tsx",
+          "operation": "delete",
+          "description": "Remove the legacy modal-based profile setup component to avoid conflicts with the dedicated onboarding flow and prevent orphaned/unused code paths."
+        }
+      ]
+    }
+  ]
+}

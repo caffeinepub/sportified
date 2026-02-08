@@ -1,0 +1,147 @@
+{
+  "kind": "build_request",
+  "title": "Add first-time user sign-up onboarding flow (Internet Identity + extended profile fields)",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-11",
+      "text": "Update the Sign In screen to clearly distinguish between returning users and new users by adding a separate \"New user? Sign up\" option alongside the existing \"Login with Internet Identity\" flow.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4",
+          "msg-6",
+          "msg-8"
+        ],
+        "quotes": [
+          "sign in should distinguish between new users and returning users",
+          "we can detect users if they are new by creating a seperate option saying \"new user? sign-up\"",
+          "yes"
+        ]
+      },
+      "acceptanceCriteria": [
+        "On /sign-in, users can choose between a returning-user login action and a distinct new-user sign-up action labeled in English (e.g., \"New user? Sign up\").",
+        "Clicking the returning-user action continues to authenticate via Internet Identity as it does today.",
+        "Clicking the sign-up option does not create a profile immediately; it initiates the sign-up flow described in REQ-12/REQ-13."
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "text": "Implement a first-time onboarding screen (separate from the existing profile setup dialog) that is used for new users after they authenticate with Internet Identity. The onboarding form must collect: name, age, fitness goals, and preferred sport.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4",
+          "msg-6",
+          "msg-9"
+        ],
+        "quotes": [
+          "Yes i found sepereare onboarding screen for new users, Yes new users should fill out additional profile info during this first time setup",
+          "Users should fill profile fields like name, age, fitness goals and preferred sport",
+          "yes"
+        ]
+      },
+      "acceptanceCriteria": [
+        "A dedicated onboarding route/screen exists (separate page, not a modal dialog) and is reachable from the sign-up entry point.",
+        "The onboarding form includes inputs for: name (text), age (number), fitness goals (text area or multi-line text), and preferred sport (existing sport selector).",
+        "Validation prevents submission when required fields are missing/invalid (e.g., empty name, missing sport, non-positive/invalid age).",
+        "On successful onboarding submission, the user’s profile is created and the user is navigated into the authenticated app experience (e.g., dashboard).",
+        "All user-facing text on the onboarding screen is in English."
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "text": "Wire the \"New user? Sign up\" flow so that when a user chooses sign-up, they authenticate with Internet Identity first and are then taken directly to the onboarding screen to complete profile setup.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-8",
+          "msg-9"
+        ],
+        "quotes": [
+          "When a user clicks “New user? Sign‑up”, should they still authenticate with Internet Identity first, and then immediately enter the onboarding form?",
+          "yes"
+        ]
+      },
+      "acceptanceCriteria": [
+        "From /sign-in, clicking the sign-up option triggers Internet Identity authentication.",
+        "After successful Internet Identity authentication via the sign-up path, the app routes the user to the onboarding screen (not the dashboard).",
+        "If the user cancels/does not complete Internet Identity authentication, they remain on /sign-in with no profile changes.",
+        "If an authenticated user already has a profile, they are not shown onboarding via this flow."
+      ]
+    },
+    {
+      "id": "REQ-14",
+      "text": "Extend the backend user profile model and related APIs to support storing age and fitness goals, and allow onboarding to create a profile with name, age, fitness goals, and preferred sport.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-6",
+          "msg-9"
+        ],
+        "quotes": [
+          "Users should fill profile fields like name, age, fitness goals and preferred sport",
+          "yes"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The backend UserProfile type includes fields for age and fitness goals in addition to existing fields.",
+        "The profile creation API supports creating a profile that persists name, age, fitness goals, and selected sport for the authenticated caller.",
+        "Existing profile read APIs return the additional fields for profiles that have them.",
+        "Existing profile save/update API continues to function with the updated UserProfile type."
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "text": "Update the frontend’s profile queries/mutations and profile editing UI to support the new profile fields (age and fitness goals) so users can view and edit them after onboarding.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-6"
+        ],
+        "quotes": [
+          "Users should fill profile fields like name, age, fitness goals and preferred sport"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Frontend types and React Query hooks for profile creation and saving are updated to match the backend API and include age + fitness goals.",
+        "The Profile page displays and allows editing of age and fitness goals in addition to existing profile fields.",
+        "Saving changes updates the stored profile and reflects after refresh/reload via the existing profile fetch flow."
+      ]
+    },
+    {
+      "id": "REQ-16",
+      "text": "Replace or rework the current authenticated-but-no-profile behavior (currently a modal ProfileSetupDialog) so it does not conflict with the new separate onboarding sign-up flow, while still preventing authenticated users without a profile from using the app without completing profile setup.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4",
+          "msg-6"
+        ],
+        "quotes": [
+          "Yes i found sepereare onboarding screen for new users",
+          "sign in should distinguish between new users and returning users"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The app no longer forces the existing ProfileSetupDialog modal for the new-user sign-up onboarding flow.",
+        "Authenticated users who have no profile are guided to complete profile setup via the dedicated onboarding screen (or an equivalent non-conflicting mechanism) before accessing core authenticated pages.",
+        "No route loop occurs between sign-in, onboarding, and dashboard for either returning users (profile exists) or new users (profile missing until onboarding submit)."
+      ]
+    }
+  ],
+  "constraints": [
+    "Backend must remain a single Motoko actor with all logic in backend/main.mo (no additional backend services).",
+    "Do not edit files under frontend/src/components/ui or any other frontend immutablePaths; compose existing UI components instead.",
+    "Use English for all user-facing text added/changed for this feature."
+  ],
+  "nonGoals": [
+    "Implementing a traditional username/password sign-up system (sign-up must still use Internet Identity authentication).",
+    "Adding third-party authentication providers beyond Internet Identity.",
+    "Real-time onboarding assistance, chatbots, or LLM integrations."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

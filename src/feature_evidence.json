@@ -1,0 +1,106 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-update-the-sign-in-screen-to-clearly-distinguish-between-returning-users-and-new-users-by-adding-a-separate-new-user-sign-up-option-alongside-the-existing-login-with-internet-identity-flow",
+      "featureTitle": "Update the Sign In screen to clearly distinguish between returning users and new users by adding a separate \"New user? Sign up\" option alongside the existing \"Login with Internet Identity\" flow.",
+      "files": [
+        "frontend/src/pages/SignInPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-11"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-a-first-time-onboarding-screen-separate-from-the-existing-profile-setup-dialog-that-is-used-for-new-users-after-they-authenticate-with-internet-identity-the-onboarding-form-must-collect-name-age-fitness-goals-and-preferred-sport",
+      "featureTitle": "Implement a first-time onboarding screen (separate from the existing profile setup dialog) that is used for new users after they authenticate with Internet Identity. The onboarding form must collect: name, age, fitness goals, and preferred sport.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/pages/OnboardingPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-12"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-wire-the-new-user-sign-up-flow-so-that-when-a-user-chooses-sign-up-they-authenticate-with-internet-identity-first-and-are-then-taken-directly-to-the-onboarding-screen-to-complete-profile-setup",
+      "featureTitle": "Wire the \"New user? Sign up\" flow so that when a user chooses sign-up, they authenticate with Internet Identity first and are then taken directly to the onboarding screen to complete profile setup.",
+      "files": [
+        "frontend/src/pages/OnboardingPage.tsx",
+        "frontend/src/pages/SignInPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-13"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-the-frontend-s-profile-queries-mutations-and-profile-editing-ui-to-support-the-new-profile-fields-age-and-fitness-goals-so-users-can-view-and-edit-them-after-onboarding",
+      "featureTitle": "Update the frontend’s profile queries/mutations and profile editing UI to support the new profile fields (age and fitness goals) so users can view and edit them after onboarding.",
+      "files": [
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/pages/ProfilePage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-15"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-replace-or-rework-the-current-authenticated-but-no-profile-behavior-currently-a-modal-profilesetupdialog-so-it-does-not-conflict-with-the-new-separate-onboarding-sign-up-flow-while-still-preventing-authenticated-users-without-a-profile-from-using-the-app-without-completing-profile-setup",
+      "featureTitle": "Replace or rework the current authenticated-but-no-profile behavior (currently a modal ProfileSetupDialog) so it does not conflict with the new separate onboarding sign-up flow, while still preventing authenticated users without a profile from using the app without completing profile setup.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/AppShell.tsx",
+        "frontend/src/components/ProfileSetupDialog.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-16"
+      ],
+      "confidence": "high"
+    }
+  ]
+}
